@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Menu, X, ArrowRight } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -6,15 +6,6 @@ import logo from "../assets/logo.png";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 20);
-    };
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
 
   const navLinks = [
     { name: "Services", href: "#services" },
@@ -24,21 +15,19 @@ const Navbar = () => {
   ];
 
   return (
-    <nav
-      className={`fixed w-full z-50 transition-all duration-300 flex items-center ${
-        scrolled ? "glass h-24" : "bg-transparent h-32"
-      }`}
-    >
-      <div className="container flex justify-between items-center">
-        <a href="#" className="text-2xl font-bold flex items-center gap-1">
-          <img 
-            src={logo} 
-            alt="Aries" 
-            className={`transition-all duration-300 ${scrolled ? "h-16" : "h-24"}`}
+    <nav className="fixed w-full z-50 bg-white/95 backdrop-blur-md h-20 shadow-[0_8px_30px_rgb(0,0,0,0.04)] border-b border-slate-100 flex items-center">
+      <div className="container flex justify-between items-center h-full">
+        {/* Logo Section */}
+        <a href="#" className="text-2xl font-bold flex items-center gap-2 group">
+          <img
+            src={logo}
+            alt="Aries"
+            className="h-10 w-auto object-contain"
           />
-          <div className="pt-2">
-            <span className="text-gradient">Aries</span>
-            <span className="text-text-primary">webs</span>
+          <div className="flex flex-col justify-center leading-none pt-1">
+            <span className="text-lg font-bold text-slate-900 tracking-tight">
+              Aries<span className="text-primary">webs</span>
+            </span>
           </div>
         </a>
 
@@ -48,25 +37,24 @@ const Navbar = () => {
             <motion.a
               key={link.name}
               href={link.href}
-              className="text-sm font-medium text-text-primary relative"
-              whileHover={{ scale: 1.1, color: "#60a5fa" }}
+              className="text-sm font-medium text-slate-700 hover:text-primary transition-colors relative"
+              whileHover={{ scale: 1.05, color: "#1d4ed8" }}
               whileTap={{ scale: 0.95 }}
-              transition={{ duration: 0.1 }}
             >
               {link.name}
             </motion.a>
           ))}
-          <button className="btn btn-primary btn-sm ml-6">
+          <button className="btn btn-primary btn-sm ml-6 shadow-md shadow-blue-500/20 hover:shadow-blue-500/40">
             Get Started
           </button>
         </div>
 
         {/* Mobile Toggle */}
         <button
-          className="md:hidden text-primary"
+          className="md:hidden text-slate-800 hover:text-primary transition-colors p-2"
           onClick={() => setIsOpen(!isOpen)}
         >
-          {isOpen ? <X size={28} /> : <Menu size={28} />}
+          {isOpen ? <X size={26} /> : <Menu size={26} />}
         </button>
       </div>
 
@@ -77,14 +65,14 @@ const Navbar = () => {
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
-            className="md:hidden glass overflow-hidden"
+            className="absolute top-20 left-0 w-full bg-white border-t border-slate-100 shadow-xl md:hidden overflow-hidden"
           >
             <div className="flex flex-col p-6 gap-4">
               {navLinks.map((link) => (
                 <a
                   key={link.name}
                   href={link.href}
-                  className="text-lg font-medium hover:text-primary transition-colors"
+                  className="text-lg font-medium text-slate-800 hover:text-primary transition-colors"
                   onClick={() => setIsOpen(false)}
                 >
                   {link.name}
